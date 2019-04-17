@@ -78,6 +78,7 @@ module.exports = {
                 props: false
             }
         ],
-        'no-mixed-operators': 0
+        'no-mixed-operators': 0,
+        'linebreak-style': 'off'
     }
 };

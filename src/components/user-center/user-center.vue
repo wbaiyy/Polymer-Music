@@ -38,19 +38,19 @@
                             <mu-dialog :open="showAboutDialog" title="关于" @close="closeAboutDialog">
                                 <mu-list>
                                     <mu-list-item title="软件名称">
-                                        <p slot="after">{{softwareName}}</p>
+                                        <p slot="after">静听Music</p>
                                     </mu-list-item>
                                     <mu-list-item title="版本">
                                         <p slot="after">{{version}}</p>
                                     </mu-list-item>
                                     <mu-list-item title="作者" href="https://github.com/pyyzcwg2833">
-                                        <p slot="after">{{authorName}}</p>
+                                        <p slot="after">xxx</p>
                                     </mu-list-item>
-                                    <mu-list-item title="项目地址" :href="repository.url">
+                                    <!--<mu-list-item title="项目地址" :href="repository.url">
                                         <p slot="after">
                                             <img src="~@/assets/image/github.svg" alt="github" width="40">
                                         </p>
-                                    </mu-list-item>
+                                    </mu-list-item>-->
                                 </mu-list>
                             </mu-dialog>
                         </mu-list>
