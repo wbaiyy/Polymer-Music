@@ -96,6 +96,7 @@ apiRoutes.get('/lyric', async (req, res) => {
         throw err;
     }
 });
+
 apiRoutes.get('/search', async (req, res) => {
     const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp';
     try {
@@ -113,20 +114,83 @@ apiRoutes.get('/search', async (req, res) => {
     }
 });
 userRoutes.post('/login', (req, res) => {
-    setTimeout(() => {
+    let mysql      = require('mysql');
+    let connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+        database : 'test'
+    });
+
+    connection.connect();
+
+    connection.query('SELECT * FROM USERS where name=? and password=?', [req.body.username, req.body.password],function (error, rows, fields) {
+        if (error) throw error;
+
+        if (rows.length === 0) {
+            res.json({
+                code: -1,
+                data: {
+
+                },
+                message:"账号或密码错误"
+            });
+        } else {
+            res.json({
+                code: 0,
+                data: {
+                    uid: rows[0].id,
+                    username: rows[0].name,
+                    nickname: rows[0].nickname,
+                    mobile: rows[0].mobile,
+                    register_time: rows[0].created_at,
+                    last_login_time: rows[0].updated_at
+                },
+                message:"请求成功"
+            });
+        }
+    });
+
+    connection.end();
+});
+userRoutes.post('/register', (req, res) => {
+    let mysql      = require('mysql');
+    let connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+        database : 'test'
+    });
+    connection.connect();
+
+    connection.query('INSERT INTO USERS (name,password,created_at) values (?, ?,?)', [req.body.username, req.body.password,(new Date()).toLocaleString()],function (error, rows, fields) {
+        if (error) throw error;
+
         res.json({
             code: 0,
             data: {
-                uid: '1',
-                username: 'pyyzcwg2833',
-                nickname: '风硕依源',
-                mobile: '13201685806',
-                register_time: 1513781141482,
-                last_login_time: 1513781141482
-            }
+
+            },
+            message:"注册成功"
         });
-    }, 3000);
+
+    });
+
+    connection.end();
 });
+
+userRoutes.post('/validate', (req, res) => {
+    let code = Math.floor(Math.random()*(9999 - 1000)) + 1000
+        res.json({
+            code: 0,
+            data: {
+                'validateCode':code
+            },
+            message:"注册成功"
+        });
+});
+
+
 app.use('/api', apiRoutes);
 app.use('/user', userRoutes);
 const compiler = webpack(webpackConfig);

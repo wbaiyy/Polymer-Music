@@ -1,4 +1,4 @@
-# 聚合音乐 - Polymer Music
+# 静听music - Polymer Music
 [![Travis Build Status](https://img.shields.io/travis/pyyzcwg2833/Polymer-Music/v2-beta.svg?style=flat-square)](https://travis-ci.org/pyyzcwg2833/Polymer-Music)
 [![GitHub stars](https://img.shields.io/github/stars/pyyzcwg2833/Polymer-Music.svg?style=flat-square)](https://github.com/pyyzcwg2833/Polymer-Music/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/pyyzcwg2833/Polymer-Music.svg?style=flat-square)](https://github.com/pyyzcwg2833/Polymer-Music/issues)
@@ -7,7 +7,7 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/pyyzcwg2833/Polymer-Music)
 
 > A music player based on Vue.js<br/>
-> 基于Vue.js的聚合音乐播放器WebAPP
+> 基于Vue.js的静听music播放器WebAPP
 
 ## Technology stack(技术栈)
 - Vue.js + Vuex + Vue-Router
@@ -69,3 +69,18 @@ npm run build --report
 4. 动画性能提升(GPU加速)
 5. iOS手机兼容性
 6. 单元测试
+
+
+```用户表
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mobile` varchar(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
+

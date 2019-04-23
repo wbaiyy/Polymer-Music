@@ -71,7 +71,7 @@ export default {
                         this.setUserInfo({ username, nickname, mobile });
                         this.$router.replace('/');
                     } else {
-                        this.setPopup('用户名或密码错误');
+                        this.setPopup(res.message);
                     }
                 } catch (err) {
                     this.setPopup('登录失败');

@@ -26,7 +26,7 @@
                     <ul class="form-list" v-show="activeStep===0">
                         <li>
                             <div class="mobile">
-                                <mu-text-field v-model="mobile" label="手机号" labelFloat />
+                                <mu-text-field  label="手机号" labelFloat v-model="form.mobile" />
                             </div>
                             <div class="validate-code">
                                 <mu-flat-button :label="vcodeBtnLabel" :disabled="vcodeBtnLabel!=='获取验证码'" @click="sendVcode" primary/>
@@ -120,7 +120,8 @@ export default {
             form: {
                 username: '',
                 password: '',
-                rePassword: ''
+                rePassword: '',
+                mobile: ''
             },
             // 音乐来源
             srcTypes: {
@@ -142,7 +143,7 @@ export default {
                 return;
             }
             // 手机号不正确
-            if (!this._validate(this.mobile)) {
+            if (!this._validate(this.form.mobile)) {
                 this.setPopup('请输入正确的手机号');
                 return;
             }
@@ -152,13 +153,14 @@ export default {
                 return;
             }
             this.hasReqVcode.status = true;
-            this.hasReqVcode.mobile = this.mobile;
+            this.hasReqVcode.mobile = this.form.mobile;
             // 清除计时器
             clearInterval(this.timer);
             // 发送验证码
             try {
-                const res = await sendVcodeReq(this.mobile);
+                const res = await sendVcodeReq(this.form.mobile);
                 if (res.code === ERR_OK) {
+                    this.vcode = res.data.validateCode;
                     // 设置最后一次发送验证码的时间
                     this.hasReqVcode.lastTime = Date.now();
                     // 设置及计时器
@@ -172,9 +174,7 @@ export default {
                         this.vcodeBtnLabel = `${this.countDown}s`;
                         this.countDown -= 1;
                     }, 1000);
-                    setTimeout(() => {
-                        this.setPopup('验证码已发送, 请查收');
-                    }, 1000);
+                    this.setPopup('验证码已发送, 请查收');
                 } else {
                     this.setPopup('验证码发送失败, 请稍后重试');
                 }
@@ -188,7 +188,7 @@ export default {
             if (this.activeStep !== 0) {
                 return;
             }
-            if (!this._validate(this.mobile)) {
+            if (!this._validate(this.form.mobile)) {
                 this.setPopup('请输入正确的手机号');
                 return;
             }
@@ -196,7 +196,7 @@ export default {
                 this.setPopup('您尚未请求过验证码');
                 return;
             }
-            if (this.hasReqVcode.mobile !== this.mobile) {
+            if (this.hasReqVcode.mobile !== this.form.mobile) {
                 this.setPopup('输入的手机号与接收验证码的手机号不匹配');
                 return;
             }
@@ -205,12 +205,14 @@ export default {
                 return;
             }
             try {
+                this._nextStep();
+
                 const res = await validateMobileReq({
-                    mobile: this.mobile,
+                    mobile: this.form.mobile,
                     vcode: this.vcode
                 });
                 if (res.code === ERR_OK) {
-                    this._nextStep();
+                    // this._nextStep();
                 } else {
                     this.setPopup('验证码不匹配');
                 }
@@ -238,6 +240,7 @@ export default {
             }
             try {
                 const res = await registerReq({
+                    mobile: this.form.mobile,
                     username: this.form.username,
                     password: this.form.password,
                     repassword: this.form.rePassword
@@ -246,7 +249,7 @@ export default {
                     this.setHasLogin(true);
                     this.setUserInfo({
                         username: this.form.username,
-                        mobile: this.hasReqVcode.mobile || this.mobile
+                        mobile: this.hasReqVcode.mobile || this.form.mobile
                     });
                     this._nextStep();
                 } else {

@@ -1,6 +1,6 @@
 {
     "name": "polymer-music",
-    "cnName": "聚合音乐",
+    "cnName": "静听music",
     "version": "1.5.1",
     "description": "A music player built with vue.js",
     "author": {
@@ -26,6 +26,7 @@
         "jsonp": "^0.2.1",
         "lyric-parser": "^1.0.1",
         "muse-ui": "^2.1.0",
+        "mysql": "^2.17.1",
         "ua-device": "^0.1.10",
         "vue": "^2.5.13",
         "vue-lazyload": "^1.1.4",

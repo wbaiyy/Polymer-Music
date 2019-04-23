@@ -1,6 +1,6 @@
 {
-    "name": "聚合音乐",
-    "short_name": "聚合音乐",
+    "name": "静听music",
+    "short_name": "静听music",
     "icons": [
         {
             "src": "/static/img/icons/android-chrome-192x192.png",
